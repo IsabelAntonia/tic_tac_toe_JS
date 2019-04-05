@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Tic Tac Toe Game</title>
+</head>
+
+<style>
+    body,
+    html {
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #fieldArea {
+        display: grid;
+        grid-template-columns: 100px 100px 100px;
+        grid-template-rows: 100px 100px 100px;
+
+    }
+
+    .singleField {
+        border: 1px solid red;
+        width: 100px;
+        height: 100px;
+    }
+
+    .singleField:hover {
+        background-color: azure;
+    }
+</style>
+
+<body>
+    <div id="fieldArea">
+        <div id="1" class="singleField"></div>
+        <div id="2" class="singleField"></div>
+        <div id="3" class="singleField"></div>
+        <div id="4" class="singleField"></div>
+        <div id="5" class="singleField"></div>
+        <div id="6" class="singleField"></div>
+        <div id="7" class="singleField"></div>
+        <div id="8" class="singleField"></div>
+        <div id="9" class="singleField"></div>
+    </div>
+
+    <script>
+        var userXArray = [];
+        var winner;
+
+        //    var clickedElement = document.getElementById('1');
+        document.addEventListener('click', function (event) {
+            //          console.log(event.target.id);
+            var clickedElement = event.target.id;
+            userXArray.push(clickedElement);
+            //          console.log(userXArray)
+            if (userXArray.length === 3) {
+                checkForThree();
+            }
+        })
+
+        var arrayRows = [
+            ['1', '2', '3'],
+            ['4', '5', '6'],
+            ['7', '8', '9'],
+            ['1', '4', '7'],
+            ['2', '5', '8'],
+            ['3', '6', '9'],
+            ['1', '5', '9'],
+            ['3', '5', '7']
+        ]
+
+
+
+        function checkForThree() {
+
+
+            for (var i = 0; i < arrayRows.length; i++) {
+
+
+
+                compare(arrayRows[i])
+
+                if (winner === 'X') {
+                    break;
+
+                }
+
+
+
+
+
+            }
+        }
+
+        function compare(currentArray) {
+
+
+            var threeTrue = 0;
+
+            for (var i = 0; i < currentArray.length; i++) {
+
+
+                if (currentArray[i] === userXArray[i]) {
+
+                    threeTrue++;
+                }
+                console.log(threeTrue)
+
+                if (threeTrue === 3) {
+                    console.log('user x won')
+                    winner = 'X'
+                    return true;
+
+
+                } else {
+                    console.log('user x lost')
+
+                }
+
+            }
+
+
+
+
+        }
+    </script>
+</body>
+
+</html>
