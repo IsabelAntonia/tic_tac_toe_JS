@@ -49,20 +49,6 @@
     </div>
 
     <script>
-        var userXArray = [];
-        var winner;
-
-        //    var clickedElement = document.getElementById('1');
-        document.addEventListener('click', function (event) {
-            //          console.log(event.target.id);
-            var clickedElement = event.target.id;
-            userXArray.push(clickedElement);
-            //          console.log(userXArray)
-            if (userXArray.length === 3) {
-                checkForThree();
-            }
-        })
-
         var arrayRows = [
             ['1', '2', '3'],
             ['4', '5', '6'],
@@ -73,21 +59,70 @@
             ['1', '5', '9'],
             ['3', '5', '7']
         ]
+        var userXArray = {
+            name: "userX",
+            values: []
+        };
+        var userOArray = {
+            name: 'user0',
+            values: []
+        };
+        var winner;
+        var user = 'X';
+
+        document.addEventListener('click', function (event) {
 
 
 
-        function checkForThree() {
+            var clickedElement = event.target.id;
+
+
+            if (user === 'O') {
+                userOArray.values.push(clickedElement);
+                event.target.innerHTML = 'O'
+                user = 'X'
+
+            } else { // if it is X
+                userXArray.values.push(clickedElement);
+                user = 'O';
+                event.target.innerHTML = 'X';
+            }
+
+
+
+            console.log(userOArray.values)
+
+            if (userXArray.values.length >= 3 && user === 'O') {
+                checkForThree(userXArray);
+            }
+
+            if (userOArray.values.length >= 3 && user === 'X') {
+                checkForThree(userOArray);
+            }
+        })
+
+
+
+
+
+        function checkForThree(userArray) {
 
 
             for (var i = 0; i < arrayRows.length; i++) {
 
 
 
-                compare(arrayRows[i])
+                compare(arrayRows[i], userArray)
 
-                if (winner === 'X') {
+                if (winner === 'userO') {
+                    console.log('O won')
                     break;
 
+                } else if (winner === 'userX') {
+                    console.log('userX won')
+                    break;
+                } else {
+                    console.log('no one won')
                 }
 
 
@@ -97,7 +132,7 @@
             }
         }
 
-        function compare(currentArray) {
+        function compare(currentArray, userArray) {
 
 
             var threeTrue = 0;
@@ -105,20 +140,23 @@
             for (var i = 0; i < currentArray.length; i++) {
 
 
-                if (currentArray[i] === userXArray[i]) {
+                if (currentArray[i] === userArray.values[i]) {
+
 
                     threeTrue++;
                 }
                 console.log(threeTrue)
 
                 if (threeTrue === 3) {
-                    console.log('user x won')
-                    winner = 'X'
+                    // console.log('user x won')
+                    winner = userArray.name;
+                    console.log(winner)
                     return true;
 
 
                 } else {
-                    console.log('user x lost')
+                    console.log('threeTrue not yet reached')
+                    // console.log('user x lost')
 
                 }
 
