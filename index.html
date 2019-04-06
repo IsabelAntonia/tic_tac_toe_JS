@@ -64,7 +64,7 @@
             values: []
         };
         var userOArray = {
-            name: 'user0',
+            name: 'userO',
             values: []
         };
         var winner;
@@ -115,6 +115,7 @@
                 compare(arrayRows[i], userArray)
 
                 if (winner === 'userO') {
+
                     console.log('O won')
                     break;
 
@@ -133,34 +134,19 @@
         }
 
         function compare(currentArray, userArray) {
+            console.log(currentArray)
+            console.log(userArray.values)
+            var matches = userArray.values.filter(element => currentArray.includes(element));
+            console.log(matches)
 
-
-            var threeTrue = 0;
-
-            for (var i = 0; i < currentArray.length; i++) {
-
-
-                if (currentArray[i] === userArray.values[i]) {
-
-
-                    threeTrue++;
-                }
-                console.log(threeTrue)
-
-                if (threeTrue === 3) {
-                    // console.log('user x won')
-                    winner = userArray.name;
-                    console.log(winner)
-                    return true;
-
-
-                } else {
-                    console.log('threeTrue not yet reached')
-                    // console.log('user x lost')
-
-                }
-
+            if (matches.length === 3) {
+                winner = userArray.name;
+                console.log(winner)
+                return true;
+            } else {
+                console.log('no')
             }
+
 
 
 
