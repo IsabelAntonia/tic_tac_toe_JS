@@ -12,6 +12,7 @@
         height: 100vh;
         width: 100vw;
         margin: 0;
+        flex-direction: column;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -33,6 +34,15 @@
     .singleField:hover {
         background-color: azure;
     }
+
+    button {
+        margin-top: 150px;
+        cursor: pointer;
+        font-size: 1em;
+        padding: 10px;
+        background-color: yellow;
+        border: 3px solid darkblue;
+    }
 </style>
 
 <body>
@@ -48,82 +58,139 @@
         <div id="9" class="singleField"></div>
     </div>
 
+    <button id="button">New Game</button>
+
     <script>
-        var arrayRows = [
-            ['1', '2', '3'],
-            ['4', '5', '6'],
-            ['7', '8', '9'],
-            ['1', '4', '7'],
-            ['2', '5', '8'],
-            ['3', '6', '9'],
-            ['1', '5', '9'],
-            ['3', '5', '7']
-        ]
-        var userXArray = {
-            name: "userX",
-            values: []
-        };
-        var userOArray = {
-            name: 'userO',
-            values: []
-        };
-        var winner;
-        var user = 'X';
+        function gameLogic() {
 
-        document.addEventListener('click', function (event) {
+            // declare variables
+            var clickedField = [];
+            var arrayRows = [
+                ['1', '2', '3'],
+                ['4', '5', '6'],
+                ['7', '8', '9'],
+                ['1', '4', '7'],
+                ['2', '5', '8'],
+                ['3', '6', '9'],
+                ['1', '5', '9'],
+                ['3', '5', '7']
+            ]
+            var userXArray = {
+                name: "userX",
+                values: []
+            };
+            var userOArray = {
+                name: 'userO',
+                values: []
+            };
+            var winner = '';
+            var user = 'X';
 
+            var fieldArea = document.getElementById('fieldArea')
+            var buttom = document.getElementById('button');
 
+            //event listeners for button and field
 
-            var clickedElement = event.target.id;
+            button.addEventListener('click', function (event) {
 
+                var elements = document.getElementsByClassName('singleField');
+                for (var i = 0; i < elements.length; i++) {
+                    elements[i].innerHTML = '';
+                }
+                clickedField = [];
+                userOArray.values = [];
+                userXArray.values = [];
+                user = 'X';
+                winner = '';
+            })
 
-            if (user === 'O') {
-                userOArray.values.push(clickedElement);
-                event.target.innerHTML = 'O'
-                user = 'X'
+            fieldArea.addEventListener('click', function (event) {
 
-            } else { // if it is X
-                userXArray.values.push(clickedElement);
-                user = 'O';
-                event.target.innerHTML = 'X';
-            }
+                if (clickedField.includes(event.target.id) && clickedField.length < 9) {
+                    console.log('this field is occupied already')
+                } else if (winner === 'userO' || winner === 'userX') {
+                    console.log('This Game is won by' + '' + winner + '. Start a new game.')
+                } else if (winner === 'no one' && clickedField.length === 9) {
+                    console.log('This Game is over. Start a new Game')
 
-
-
-            console.log(userOArray.values)
-
-            if (userXArray.values.length >= 3 && user === 'O') {
-                checkForThree(userXArray);
-            }
-
-            if (userOArray.values.length >= 3 && user === 'X') {
-                checkForThree(userOArray);
-            }
-        })
-
-
-
-
-
-        function checkForThree(userArray) {
-
-
-            for (var i = 0; i < arrayRows.length; i++) {
-
-
-
-                compare(arrayRows[i], userArray)
-
-                if (winner === 'userO') {
-
-                    console.log('O won')
-                    break;
-
-                } else if (winner === 'userX') {
-                    console.log('userX won')
-                    break;
                 } else {
-                    console.log('no one won')
+
+                    clickedField.push(event.target.id);
+
+
+
+                    var clickedElement = event.target.id;
+
+
+                    if (user === 'O') {
+                        userOArray.values.push(clickedElement);
+                        event.target.innerHTML = 'O'
+                        user = 'X'
+
+                    } else { // if it is X
+                        userXArray.values.push(clickedElement);
+                        user = 'O';
+                        event.target.innerHTML = 'X';
+                    }
+
+                    if (userXArray.values.length >= 3 && user === 'O') {
+                        checkForThree(userXArray);
+                    }
+
+                    if (userOArray.values.length >= 3 && user === 'X') {
+                        checkForThree(userOArray);
+                    }
+
+                }
+
+            })
+
+
+
+
+
+            function checkForThree(userArray) {
+
+
+                for (var i = 0; i < arrayRows.length; i++) {
+
+
+
+                    compare(arrayRows[i], userArray)
+
+                    if (winner === 'userO') {
+
+                        console.log('O won')
+                        break;
+
+                    } else if (winner === 'userX') {
+                        console.log('userX won')
+                        break;
+                    } else if (winner === 'no one' && clickedField.length === 9) {
+
+                        console.log('Game Over! No one won')
+                        break;
+
+                    }
+
+
+
+
+
+                }
+            }
+
+            function compare(currentArray, userArray) {
+
+                var matches = userArray.values.filter(element => currentArray.includes(element));
+
+
+                if (matches.length === 3) {
+                    winner = userArray.name;
+
+                    return true;
+                } else {
+                    winner = 'no one'
                 }
 
 
@@ -131,26 +198,6 @@
 
 
             }
-        }
-
-        function compare(currentArray, userArray) {
-            console.log(currentArray)
-            console.log(userArray.values)
-            var matches = userArray.values.filter(element => currentArray.includes(element));
-            console.log(matches)
-
-            if (matches.length === 3) {
-                winner = userArray.name;
-                console.log(winner)
-                return true;
-            } else {
-                console.log('no')
-            }
-
-
-
-
-
         }
     </script>
 </body>
