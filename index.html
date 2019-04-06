@@ -1,52 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Tic Tac Toe Game</title>
-</head>
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway"
+      rel="stylesheet"
+    />
+  </head>
 
-<style>
+  <style>
     body,
     html {
-        height: 100vh;
-        width: 100vw;
-        margin: 0;
-        flex-direction: column;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      margin: 0;
+      flex-direction: column;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: "Raleway", sans-serif;
+      background-color: #f5f5f5;
     }
 
     #fieldArea {
-        display: grid;
-        grid-template-columns: 100px 100px 100px;
-        grid-template-rows: 100px 100px 100px;
-
+      grid-column-start: 1;
+      display: grid;
+      grid-template-columns: 100px 100px 100px;
+      grid-template-rows: 100px 100px 100px;
     }
 
     .singleField {
-        border: 1px solid red;
-        width: 100px;
-        height: 100px;
+      border: 1px solid #f1467a;
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100px;
     }
 
     .singleField:hover {
-        background-color: azure;
+      background-color: #fb949e;
     }
 
     button {
-        margin-top: 150px;
-        cursor: pointer;
-        font-size: 1em;
-        padding: 10px;
-        background-color: yellow;
-        border: 3px solid darkblue;
+      margin-top: 70px;
+      cursor: pointer;
+      font-size: 1.5em;
+      padding: 20px;
+      font-family: "Raleway", sans-serif;
+      background: linear-gradient(45deg, #f1467a, #fb949e);
+      /* border: 3px solid darkblue; */
     }
-</style>
 
-<body>
-    <div id="fieldArea">
+    button:hover {
+      font-size: 1.7em;
+    }
+
+    #gridArea {
+      margin-top: 70px;
+      display: grid;
+      grid-template-columns: 300px 300px;
+      grid-column-gap: 50px;
+      grid-template-rows: 300px;
+    }
+
+    #rules {
+      grid-column-start: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      text-align: center;
+    }
+
+    li {
+      margin-top: 30px;
+    }
+  </style>
+
+  <body>
+    <h1>Tic <span style="color: #F1467A">Tac</span> Toe</h1>
+    <div id="gridArea">
+      <div id="fieldArea">
         <div id="1" class="singleField"></div>
         <div id="2" class="singleField"></div>
         <div id="3" class="singleField"></div>
@@ -56,11 +96,20 @@
         <div id="7" class="singleField"></div>
         <div id="8" class="singleField"></div>
         <div id="9" class="singleField"></div>
+      </div>
+      <div id="rules">
+        <h2 style="margin: 0;">Rules:</h2>
+        <ul>
+          <li>Each player has to take turns.</li>
+          <li>The player who fills three consecutive fields first wins.</li>
+          <li>Start a new game at any point.</li>
+          <li>Enjoy!</li>
+        </ul>
+      </div>
     </div>
 
     <button id="button">New Game</button>
 
     <script src="main.js"></script>
-</body>
-
+  </body>
 </html>
