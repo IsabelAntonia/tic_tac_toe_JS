@@ -39,6 +39,7 @@ function main() {
         userXArray.values = [];
         user = 'X';
         winner = '';
+        results.style.display = 'none';
     }
 
     var handleFieldArea = function () {
@@ -65,7 +66,6 @@ function main() {
                 occupiedCross = false;
             }
         }
-        // console.log(event.target.contains(cross) || event.target.contains(circle));
 
         // check if the field is already occupied while the game is not over yet
         if (clickedFields.length < 9 && winner === '' && (occupiedCircle || occupiedCross || clickedFields.includes(event.target))) {
@@ -127,16 +127,23 @@ function main() {
 
             compare(arrayRows[i], userArray)
 
-            if (winner === 'O') {
 
-                alert('O won!')
+
+            if (winner === 'O') {
+                var results = document.getElementById('results');
+                results.innerHTML = 'O won!';
+                results.style.display = 'block';
+
+                // alert('O won!')
                 break;
 
             } else if (winner === 'X') {
-                alert('X won!')
-                break;
-            } else if (winner === '' && clickedFields.length === 9) {
-                alert('This Game ended in a draw. Start a new game.')
+
+                var results = document.getElementById('results');
+                results.innerHTML = 'X won!'
+                results.style.display = 'block';
+
+                // alert('X won!')
                 break;
             }
 
@@ -144,6 +151,12 @@ function main() {
 
 
 
+        }
+
+        if (winner === '' && clickedFields.length === 9) {
+            var results = document.getElementById('results');
+            results.innerHTML = 'This Game ended in a draw.'
+            results.style.display = 'block';
         }
     }
 
@@ -182,6 +195,6 @@ document.getElementById('button').addEventListener('click', function (event) {
 
 document.getElementById('fieldArea').addEventListener('click', function (event) {
 
-    console.log(event.target)
+
     gameLogic.handleFieldArea();
 })
