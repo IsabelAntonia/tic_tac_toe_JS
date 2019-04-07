@@ -1,7 +1,7 @@
 function main() {
 
     // declare variables
-    var clickedField = [];
+    var clickedFields = [];
     var arrayRows = [
         ['1', '2', '3'],
         ['4', '5', '6'],
@@ -13,11 +13,11 @@ function main() {
         ['3', '5', '7']
     ]
     var userXArray = {
-        name: "userX",
+        name: "X",
         values: []
     };
     var userOArray = {
-        name: 'userO',
+        name: 'O',
         values: []
     };
     var winner = '';
@@ -34,7 +34,7 @@ function main() {
         for (var i = 0; i < elements.length; i++) {
             elements[i].innerHTML = '';
         }
-        clickedField = [];
+        clickedFields = [];
         userOArray.values = [];
         userXArray.values = [];
         user = 'X';
@@ -44,21 +44,27 @@ function main() {
     var handleFieldArea = function () {
 
 
+        var cross = document.getElementsByClassName('cross')[0];
+        var circle = document.getElementsByClassName('circle')[0];
+        console.log(event.target.contains(cross) || event.target.contains(circle));
 
-        if (clickedField.includes(event.target.id) && clickedField.length < 9 && winner === '') {
+        // check if the field is already occupied while the game is not over yet
+        if (clickedFields.length < 9 && winner === '' && (event.target.contains(circle) || event.target.contains(cross) || clickedFields.includes(event.target))) {
             alert('This field is already occupied!')
-        } else if (winner === 'userO' || winner === 'userX') {
-            alert('This Game is already won by' + '' + winner + '. Start a new game.')
-        } else if (winner === '' && clickedField.length === 9) {
+        } else if (winner === 'O' || winner === 'X') {
+            alert('This Game is already won by' + ' ' + winner + '. Start a new game.')
+        } else if (winner === '' && clickedFields.length === 9) {
             alert('This Game is over. Start a new Game')
 
         } else {
 
-            clickedField.push(event.target.id);
+            // clickedField.push(event.target.id);
+            clickedFields.push(event.target);
 
 
 
             var clickedElement = event.target.id;
+
 
 
             if (user === 'O') {
@@ -74,6 +80,7 @@ function main() {
                 var cross = document.createElement('span');
                 cross.classList.add('cross');
                 event.target.append(cross);
+                console.log(cross.parentNode)
             }
 
             if (userXArray.values.length >= 3 && user === 'O') {
@@ -101,19 +108,14 @@ function main() {
 
             compare(arrayRows[i], userArray)
 
-            if (winner === 'userO') {
+            if (winner === 'O') {
 
                 alert('O won!')
                 break;
 
-            } else if (winner === 'userX') {
+            } else if (winner === 'X') {
                 alert('X won!')
                 break;
-            } else if (winner === '' && clickedField.length === 9) {
-
-                alert('Game Over! This Game ended in a draw.')
-                break;
-
             }
 
 
