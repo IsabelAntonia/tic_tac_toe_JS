@@ -43,13 +43,32 @@ function main() {
 
     var handleFieldArea = function () {
 
+        var occupiedCircle = false;
+        var occupiedCross = false;
+        var cross = document.getElementsByClassName('cross');
+        var circle = document.getElementsByClassName('circle');
 
-        var cross = document.getElementsByClassName('cross')[0];
-        var circle = document.getElementsByClassName('circle')[0];
-        console.log(event.target.contains(cross) || event.target.contains(circle));
+        for (var i = 0; i < circle.length; i++) {
+            if (event.target.contains(circle[i])) {
+                occupiedCircle = true;
+                break;
+            } else {
+                occupiedCircle = false;
+            }
+        }
+
+        for (var i = 0; i < cross.length; i++) {
+            if (event.target.contains(cross[i])) {
+                occupiedCross = true;
+                break;
+            } else {
+                occupiedCross = false;
+            }
+        }
+        // console.log(event.target.contains(cross) || event.target.contains(circle));
 
         // check if the field is already occupied while the game is not over yet
-        if (clickedFields.length < 9 && winner === '' && (event.target.contains(circle) || event.target.contains(cross) || clickedFields.includes(event.target))) {
+        if (clickedFields.length < 9 && winner === '' && (occupiedCircle || occupiedCross || clickedFields.includes(event.target))) {
             alert('This field is already occupied!')
         } else if (winner === 'O' || winner === 'X') {
             alert('This Game is already won by' + ' ' + winner + '. Start a new game.')
@@ -73,6 +92,9 @@ function main() {
                 circle.classList.add('circle');
                 event.target.append(circle);
                 user = 'X'
+                if (userOArray.values.length >= 3) {
+                    checkForThree(userOArray);
+                }
 
             } else { // if it is X
                 userXArray.values.push(clickedElement);
@@ -80,16 +102,13 @@ function main() {
                 var cross = document.createElement('span');
                 cross.classList.add('cross');
                 event.target.append(cross);
-                console.log(cross.parentNode)
+                if (userXArray.values.length >= 3) {
+                    checkForThree(userXArray);
+                }
             }
 
-            if (userXArray.values.length >= 3 && user === 'O') {
-                checkForThree(userXArray);
-            }
 
-            if (userOArray.values.length >= 3 && user === 'X') {
-                checkForThree(userOArray);
-            }
+
 
         }
 
@@ -115,6 +134,9 @@ function main() {
 
             } else if (winner === 'X') {
                 alert('X won!')
+                break;
+            } else if (winner === '' && clickedFields.length === 9) {
+                alert('This Game ended in a draw. Start a new game.')
                 break;
             }
 
@@ -160,6 +182,6 @@ document.getElementById('button').addEventListener('click', function (event) {
 
 document.getElementById('fieldArea').addEventListener('click', function (event) {
 
-
+    console.log(event.target)
     gameLogic.handleFieldArea();
 })
