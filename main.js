@@ -43,12 +43,14 @@ function main() {
 
     var handleFieldArea = function () {
 
-        if (clickedField.includes(event.target.id) && clickedField.length < 9) {
-            console.log('this field is occupied already')
+
+
+        if (clickedField.includes(event.target.id) && clickedField.length < 9 && winner === '') {
+            alert('This field is already occupied!')
         } else if (winner === 'userO' || winner === 'userX') {
-            console.log('This Game is won by' + '' + winner + '. Start a new game.')
-        } else if (winner === 'no one' && clickedField.length === 9) {
-            console.log('This Game is over. Start a new Game')
+            alert('This Game is already won by' + '' + winner + '. Start a new game.')
+        } else if (winner === '' && clickedField.length === 9) {
+            alert('This Game is over. Start a new Game')
 
         } else {
 
@@ -61,13 +63,17 @@ function main() {
 
             if (user === 'O') {
                 userOArray.values.push(clickedElement);
-                event.target.innerHTML = 'O'
+                var circle = document.createElement('span');
+                circle.classList.add('circle');
+                event.target.append(circle);
                 user = 'X'
 
             } else { // if it is X
                 userXArray.values.push(clickedElement);
                 user = 'O';
-                event.target.innerHTML = 'X';
+                var cross = document.createElement('span');
+                cross.classList.add('cross');
+                event.target.append(cross);
             }
 
             if (userXArray.values.length >= 3 && user === 'O') {
@@ -97,15 +103,15 @@ function main() {
 
             if (winner === 'userO') {
 
-                console.log('O won')
+                alert('O won!')
                 break;
 
             } else if (winner === 'userX') {
-                console.log('userX won')
+                alert('X won!')
                 break;
-            } else if (winner === 'no one' && clickedField.length === 9) {
+            } else if (winner === '' && clickedField.length === 9) {
 
-                console.log('Game Over! No one won')
+                alert('Game Over! This Game ended in a draw.')
                 break;
 
             }
@@ -127,7 +133,7 @@ function main() {
 
             return true;
         } else {
-            winner = 'no one'
+            winner = ''
         }
 
 
@@ -151,6 +157,7 @@ document.getElementById('button').addEventListener('click', function (event) {
 })
 
 document.getElementById('fieldArea').addEventListener('click', function (event) {
+
 
     gameLogic.handleFieldArea();
 })
